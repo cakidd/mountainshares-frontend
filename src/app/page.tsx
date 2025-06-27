@@ -15,7 +15,7 @@ export default function Home() {
             🏔️ MountainShares
           </h1>
           <p className="text-lg text-gray-600">
-            West Virginia's Democratic Digital Currency
+            West Virginia&apos;s Democratic Digital Currency
           </p>
           <p className="text-sm text-gray-500 mt-2">
             2% of every purchase supports local West Virginia programs

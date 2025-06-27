@@ -20,8 +20,8 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
     setLoading(true);
     
     try {
-      // Call your EXISTING backend API - NO BACKEND CHANGES
-      const response = await fetch('/api/create-checkout-session', {
+      // Call your EXISTING backend API directly
+      const response = await fetch('https://mountainshares-backend-3nzzsyxfi-mountainshares-team.vercel.app/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -34,8 +34,10 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
       const data = await response.json();
       
       if (data.url) {
-        // Redirect to your existing Stripe checkout
+        // Direct redirect to Stripe checkout (no Stripe.js needed)
         window.location.href = data.url;
+      } else {
+        alert('Failed to create checkout session');
       }
     } catch (error) {
       console.error('Purchase failed:', error);
@@ -63,8 +65,9 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
             placeholder="your@email.com"
+            required
           />
         </div>
         
@@ -77,7 +80,7 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
             min="1"
             value={quantity}
             onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
           />
         </div>
         
@@ -103,7 +106,7 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
         <button
           onClick={handlePurchase}
           disabled={loading || !walletAddress || !email}
-          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:opacity-50"
+          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
         >
           {loading ? 'Processing...' : `Purchase ${quantity} MountainShares`}
         </button>

@@ -1,14 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface WalletConnectProps {
   onWalletConnect: (address: string) => void;
 }
 
+interface KycStatus {
+  verified: boolean;
+  whitelisted: boolean;
+  kycLevel: number;
+  registryConfigured: boolean;
+  merkleRootConfigured: boolean;
+  status: string;
+}
+
 export default function WalletConnect({ onWalletConnect }: WalletConnectProps) {
   const [walletAddress, setWalletAddress] = useState<string>('');
-  const [kycStatus, setKycStatus] = useState<any>(null);
+  const [kycStatus, setKycStatus] = useState<KycStatus | null>(null);
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== 'undefined') {
@@ -33,7 +42,7 @@ export default function WalletConnect({ onWalletConnect }: WalletConnectProps) {
 
   const checkKycStatus = async (address: string) => {
     try {
-      const response = await fetch('/api/merkle-kyc-simple', {
+      const response = await fetch('https://mountainshares-backend-3nzzsyxfi-mountainshares-team.vercel.app/api/merkle-kyc-simple', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
