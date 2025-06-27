@@ -1,0 +1,18 @@
+
+> mountainshares-frontend@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.3.4 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.255.255.254:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 810ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1338ms
+ GET / 200 in 1559ms
+ ✓ Compiled /favicon.ico in 355ms
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 616ms
+ GET /favicon.ico?favicon.45db1c09.ico 200 in 225ms
+[?25h
