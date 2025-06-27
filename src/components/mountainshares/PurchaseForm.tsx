@@ -21,7 +21,7 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
     
     try {
       // Call your EXISTING backend API directly
-      const response = await fetch('https://mountainshares-backend-3nzzsyxfi-mountainshares-team.vercel.app/api/create-checkout-session', {
+      const response = await fetch('https://mountainshares-backend.vercel.app/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -35,7 +35,9 @@ export default function PurchaseForm({ walletAddress }: PurchaseFormProps) {
       
       if (data.url) {
         // Direct redirect to Stripe checkout (no Stripe.js needed)
-        window.location.href = data.url;
+        // Use Stripe sessionId redirect (preserves API key context)
+        const stripe = window.Stripe("pk_live_51P0x4eJwby4IAnqFKrjn7N02DGPRorWWbVdl1KvIvnCnz3eg9MPCabIechFRuh0t4VqEOXOOxcbqhPbFSeJUyytsz000lYoj67w");
+        const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
       } else {
         alert('Failed to create checkout session');
       }
